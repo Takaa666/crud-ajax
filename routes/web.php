@@ -27,3 +27,13 @@ Route::group(['prefix' => 'mahasiswa'], function() {
     Route::get('delete/{id?}', 'MahasiswaController@delete')->name('mahasiswa.delete');
     Route::post('update/{id?}', 'MahasiswaController@update')->name('mahasiswa.update');
 });
+Route::group(['prefix' => 'pelajaran'], function() {
+    Route::get('/', 'PelajaranController@index')->name('pelajaran');
+    Route::get('create', 'PelajaranController@create')->name('pelajaran.create');
+    Route::get('get', 'PelajaranController@get')->name('pelajaran.get');
+    Route::post('store', 'PelajaranController@store')->name('pelajaran.store');
+    Route::get('edit/{id?}', 'PelajaranController@edit')->name('pelajaran.edit');
+    Route::get('view/{id?}', 'PelajaranController@view')->name('pelajaran.view');
+    Route::get('delete/{id?}', 'PelajaranController@delete')->name('pelajaran.delete');
+    Route::post('update/{id?}', 'PelajaranController@update')->name('pelajaran.update');
+});

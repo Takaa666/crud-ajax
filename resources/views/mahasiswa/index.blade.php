@@ -57,7 +57,7 @@
                 columns: [
                     {data: 'id', name: 'mahasiswa.id'},
                     {data: 'nama_mahasiswa', name: 'mahasiswa.nama_mahasiswa'},
-                    {data: 'jurusan', name: 'mahasiswa.jurusan'},
+                    {data: 'jurusan', name: 'mahasiswa.jurusan'}, 
                     {data: 'semester', name: 'mahasiswa.semester'},
                     {data: 'alamat', name: 'mahasiswa.alamat'},
                     {data: 'umur', name: 'mahasiswa.umur'},
