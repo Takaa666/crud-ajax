@@ -11,7 +11,7 @@
 </head>
 <body>
     <div class="form-group my-5"></div>
-   <button type="button" class="btn btn-success btn-sm" onclick="create()">create</button>
+    <button type="button" class="btn btn-success btn-sm" onclick="create()">create</button>
 <div>
     <div class="container my-5">
         <table width="100%" class="table table-consoned table-bordered" id="table">
@@ -21,6 +21,7 @@
                     <th>NamaGuru</th>
                     <th>Jam Pelajaran</th>
                     <th>Hari</th>  
+                    <th></th>  
                 </tr>
             </thead>
         </table>
@@ -30,15 +31,24 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns" crossorigin="anonymous"></script>
     <script src="{!! asset('plugin/bootbox/bootbox.all.min.js') !!}"></script>
     <script>
-        // $(function() {
-        //     datatable = $('#table').DataTable({
-        //     serverSide = true,
-        //     ajax: '<? route ('Pelajaran.get') ?>',
-        //     columns : [
-        //         {data:'id' , name: 'pelajaran.id'},
-        //         {data: ''}]
-        //     })
-        // })
+        let dataTable;
+        $(function() {
+            dataTable = $('#table').DataTable({
+                serverSide: true,
+                ajax: '<?= route ('pelajaran.get') ?>',
+                columns : [
+                    {data:'mata_pelajaran' , name: 'mata.pelajaran'},
+                    {data: 'nama_guru' , name: 'nama.guru'},
+                    {data: 'jam_pelajaran' , name: 'jam.pelajaran'},
+                    {data: 'hari' , name: 'hari'},
+                    {data: 'id' , name: 'id', class: 'text-center', render: function(data) {
+                        return '<button type="button" class="btn btn-info btn-sm" onclick="view('+data+')">view</button>\n\
+                            <button type="button" class="btn btn-warning btn-sm" onclick="edit('+data+')">edit</button>\n\
+                            <button type="button" class="btn btn-danger btn-sm" onclick="destroy('+data+')">delete</button>'
+                    }},
+                ]
+            })
+        })
         
         function create() {
             $.ajax({
@@ -47,8 +57,6 @@
                     bootbox.dialog({
                         title: 'create pelajaran',
                         message:response
-                        
-
                     })
                 }
             })
@@ -63,10 +71,23 @@
                 success: function(response) {
                     if (response.success) {
                         alert('store berhasil')
+                        bootbox.hideAll()
+                        dataTable.ajax.reload()
                     } else {
                         alert('store gagal')
                     }
                 }
+            })
+        }
+        function view(id) {
+            $.ajax({
+                url: '<?= route('pelajaran.view')?>/'+id,
+                success: function(response) {
+                    bootbox.dialog({
+                        title: 'Edit Mahasiswa',
+                        message : response
+                    })                    
+              }
             })
         }
     </script>

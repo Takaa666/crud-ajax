@@ -53,7 +53,7 @@ class MahasiswaController extends Controller
             'email' => 'required',
         ], [
             'nama_mahasiswa.required' => 'Nama Mahasiswa Harus Di Isi',
-            'jurusan.required' => 'Jurusan Harus Di Isi',
+            'jurusan.required' => 'Ju rusan Harus Di Isi',
             'semester.required' => 'Semester Harus Di Isi',
             'alamat.required' => 'Alamat Harus Di Isi',
             'umur.required' => 'Umur Harus Di Isi',
