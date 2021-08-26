@@ -63,6 +63,7 @@
         }
 
         function store() {
+            $('#form-create .alert').remove()
             $.ajax({
                 url: '<?= route('pelajaran.store')?>',
                 dataType: 'json', 
@@ -76,19 +77,82 @@
                     } else {
                         alert('store gagal')
                     }
+                }, error: function(xhr) {
+                    let response = JSON.parse(xhr.responseText);
+                    $('#form-create').prepend(error_message(response));
                 }
             })
         }
+
         function view(id) {
             $.ajax({
                 url: '<?= route('pelajaran.view')?>/'+id,
                 success: function(response) {
                     bootbox.dialog({
-                        title: 'Edit Mahasiswa',
+                        title: 'Edit Pelajaran',
                         message : response
                     })                    
-              }
+                }
             })
+        }
+
+        function destroy(id) {
+            alert('Apakah Anda Yakin Ingin Menghapus Data Ini ? ')
+            $.ajax({
+                url: '<?=route('pelajaran.delete') ?>/'+id,
+                success: function(response) {
+                    if(response.success) {
+                        alert ('Data Berhasil di Hapus')
+                        dataTable.ajax.reload()
+                    } else { 
+                        alert ()
+                    }
+                }                   
+            })
+        }
+
+        function  update(id) {
+            $('#form-edit .alert').remove()
+            $.ajax({
+                url: '<?=route('pelajaran.update')?>/'+id,
+                type: 'post',
+                dataType: 'json',
+                data: $('#form-edit'). serialize(),
+                success: function(response) {
+                    if(response.success) {
+                        alert('update berhasil')
+                        bootbox.hideAll()
+                        DataTable.ajax.reload()
+                    } else {
+                        alert('store gagal')
+                    }
+                }, error: function(xhr) {
+                    let response = JSON.parse(xhr.responseText);
+                    $('#form-edit').prepend(error_message(response));
+                }
+            })
+        }
+
+        function edit(id) {
+            $.ajax({
+                url: '<?=route('pelajaran.edit')?>/'+id,
+                success: function(response) {
+                    bootbox.dialog({
+                        title: 'Edit Mahasiswa',
+                        message: response
+                    })
+                }
+            })
+        }       
+        
+        function error_message(errors) {
+            let validation = '<div class="alert alert-danger">';
+            validation += '<p>'+errors.message+'</p>';
+            $.each(errors.errors, function(i, error) {
+                validation += error[0] + '<br>'
+            })
+            validation += '<div>'
+            return validation;
         }
     </script>
 </body>

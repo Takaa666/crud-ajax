@@ -120,11 +120,15 @@
                     } else {
                         alert('update gagal')
                     }
+                }, error: function(xhr) {
+                    let response = JSON.parse(xhr.responseText);
+                    $('#form-edit').prepend(errormessage(response))
                 }
             })
         }
 
         function store() {
+            $('#form-create .alert').remove()
             $.ajax({
                 url: '<?= route('mahasiswa.store') ?>/',
                 type: 'post',
@@ -138,6 +142,9 @@
                     } else {
                         alert('store gagal')
                     }
+                }, error: function(xhr) {
+                    let response = JSON.parse(xhr.responseText);
+                    $('#form-create').prepend(errormessage(response))
                 }
             })
         }
@@ -154,6 +161,16 @@
                     }
                 }
             })
+        }
+
+        function errormessage(errors){
+            let validations = '<div class="alert alert-danger">';
+            validations += '<p><b>'+errors.message+'</b></p>';
+            $.each(errors.errors, function(i, error){
+                validations += error[0]+'<br>';
+            });
+            validations += '</div>';
+            return validations;
         }
     </script>
   </body>

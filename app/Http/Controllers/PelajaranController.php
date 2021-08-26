@@ -83,5 +83,47 @@ class PelajaranController extends Controller
             $model = Pelajaran::findOrFail($id);
             return view('pelajaran.view', ['model' => $model]);
         }
-}
 
+        public function edit($id) {
+            $model = Pelajaran::findOrFail($id);
+            return view('pelajaran.edit', ['model' => $model]);
+        }
+
+        public function update(Request $request, $id) {
+            $validator = Validator:: make($request->all(), [
+                'mata_pelajaran'=> 'required',
+                'nama_guru'=> 'required',
+                'jam_pelajaran'=> 'required',
+                'hari'=> 'required',
+            ],[
+                'mata_pelajaran.required'=> 'Mata Pelajaran Harus Di Isi',
+                'nama_guru.required'=> 'Nama Guru Harus Di Isi',
+                'jam_pelajaran.required'=> 'Jam Pelajaran Harus Di Isi',
+                'hari.required'=> 'Hari Harus Di Isi',
+            ]);
+            if ($validator->fails()) {
+                return response()->json([
+                    'errors'=> $validator -> messages(),
+                    'message'=> 'Error Validation'
+                ], 400);
+            }
+            $data = [
+                'mata_pelajaran' => $request->mata_pelajaran,
+                'nama_guru' => $request->nama_guru,
+                'jam_pelajaran' => $request->jam_pelajaran,
+                'hari' => $request->hari,
+            ];
+            $model = Pelajaran::findOrFail($id);
+            if($model->update($data)){
+               return [
+                    'success'=> true,
+                    'Massage'=> 'Data Berhasil di Update'                 
+                ]; 
+            }  else {
+                return [
+                        'success'=> false,
+                        'Massage'=> 'Data Gagal di Update'
+                    ];
+                }
+            }
+    }
